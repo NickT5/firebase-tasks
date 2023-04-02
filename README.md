@@ -1,22 +1,42 @@
-# firebase-tasks
-Hello Firebase.
+# Project: firebase-tasks
+Little To do web applicaton to learn about Vue.js and Firebase.
 
-# Tech stack
-Frontend: VueJs
-Backend: Firebase
-CSS: framework, bulma? Tailwind? Bootstrap?
+## Tech stack
+- Frontend: Vue 3
+- Backend: Firebase
+- Todo: CSS framework: Bulma? Tailwind? Bootstrap?
 
 
-# Getting started
-Install node
-check installation via node --version
-Install Vue CLI (globally on your PC) with npm install -g @vue/cli
-Create vue project: vue create tasks-project
+## Start from scratch
+Download and install Node. Check version with 
+```
+node --version
+```
+Install Vue CLI.
+```
+npm install -g @vue/cli
+```
 
-If you want to install a project's dependencies, run command "npm install" which will look and install the dependencies listed in the package.json file.
+Create a Vue project.
+```
+vue create tasks-project
+```
 
-## IDE environment.
-vscode + Material Icon Theme for FileIconTheme. + Volar (recommended by vscode, made by vue itself. Contains Vetur for syntax highlighting).
+## Start from existing project
+Command *npm install* will install a project dependencies which are listed in the *package.json* file. 
+```
+npm install
+```
 
-# Vue info
-ref() is like a query selector. Select html tag so you can interact with that element.
+## IDE environment
+`VSCode` with the following plugins:
+- `Volar` which is made by the Vue creators and recommended by VSCode. It contains `Vetur` for syntax highlighting.
+- `Material Icon Theme` for the File | Preferences | Theme | FileIconTheme.
+
+## Run the application
+With command *npm run*, you can run scripts which are defined in the *package.json* file.
+
+Serve the application locally with:
+```
+npm run serve 
+```
