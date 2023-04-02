@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Firebase App</title>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+    
+    <body>
+        <div id="app">
+            <h1> hoi </h1>
+            <h1> {{ title }} </h1>
+            <buton v-on:click="changeTitle">Change content</buton>
+            <buton @click="changeTitle('argument yeah')">Change content</buton>
+
+            <div id="taskList">
+                <h2>Task list</h2>
+                <table>
+                    <tr><th>ID</th><th>Task</th><th>Created At</th></tr>
+                    <tr v-for="(task, index) in tasks">
+                        <td>{{ index }}<td>{{ task.description }}</td><td>{{ task.createdAt }}</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+        <div id="authentication">
+            <h2>Authorization</h2>
+            <input id="userEmail" type="email" placeholder="email">
+            <input id="userPassword" type="password" placeholder="password">
+            <button id="btnSignUp">Sign Up</button>
+            <button id="btnSignIn">Sign In</button>
+            <button id="btnSignOut">Sign Out</button>
+            <h3 id="userAuthStatus"></h3>
+          </div>
+        
+
+        <!--
+        <div id="taskList">
+            <h2>Task list</h2>
+            <table>
+                <tr><th>ID</th><th>Task</th><th>Created At</th></tr>
+
+                <tr><td>1</td><td>Example 1</td><td>2023-03-18</td></tr>
+                <tr><td>2</td><td>Example 2</td><td>2023-03-18</td></tr>
+                <tr><td>3</td><td>Example 3</td><td>2023-03-18</td></tr>
+            </table>
+        </div>
+        -->
+        <div id="taskActions">
+            <input id="taskNew" type="text" placeholder="Add a new task">
+            <button id="taskAdd">ADD</button>
+            <button id="taskUpdate">UPDATE</button>
+            <button id="taskDelete">DELETE</button>
+        </div>
+
+    
+    <script>
+        const vueApp = Vue.createApp({
+            // data is a function that returns an object that is accessable in the mounted html tag.
+            data() {
+                return {
+                    title: 'Hello VueJS',
+                    tasks: [
+                        {'description': 'this is task 1', 'createdAt': '2023-03-17'},
+                        {'description': 'this is task 2', 'createdAt': '2023-03-18'}    
+                    ]
+                }
+            },
+            // methods are functions accessable from vuejs html tags. More precisely, from vue directives.
+            methods: {
+                changeTitle(title){
+                    this.title = title
+                }
+            }
+
+        })
+        vueApp.mount('#app')
+    </script>
+
+
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js";
+    import{ getDatabase, set, get, update, remove, ref, child, onValue } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+    import { 
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
+      signOut  } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+    apiKey: "AIzaSyBgBy8pvFJjPDlk5x1IcdFbSYUWiW0tCIU",
+    authDomain: "my-firebase-d131d.firebaseapp.com",
+    databaseURL: "https://my-firebase-d131d-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "my-firebase-d131d",
+    storageBucket: "my-firebase-d131d.appspot.com",
+    messagingSenderId: "5753391844",
+    appId: "1:5753391844:web:e4a7466bbd2acbb0827af1",
+    measurementId: "G-4YJVRBFZCL"
+  };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getDatabase();
+    const auth = getAuth(app);
+
+
+    const peopleRef = ref(db, '/tasks');
+    //  onValue() is called every time data is changed at the specified database reference, including changes to children.
+    // The listener receives a snapshot that contains the data at the specified location in the database at the time of the event. You can retrieve the data in the snapshot with the val() method.
+    onValue(peopleRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log(data);
+    })
+    </script>
+
+    </body>
+</html>
