@@ -14,7 +14,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="font-bold mt-6 !important">Priority</label>
-                    <select class="w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded focus:bg-white focus:border-gray-500">
+                    <select class="w-full bg-gray-200 border border-gray-200 py-3 px-4 pr-8 rounded focus:bg-white focus:border-gray-500">
                         <option value="high">High</option>
                         <option value="medium">Medium</option>
                         <option value="low">Low</option>
@@ -41,7 +41,7 @@
 
                                 </div>
                                 <!-- task content -->
-                                <li class="debug">{{ task.description }}. {{ task.id }} {{ task.done }}</li>
+                                <li class="debug">{{ task.description }}. {{ task.id }}</li>
                             </div>
                         </div>
                         <!-- buttons -->
@@ -63,13 +63,13 @@
             <div class="grid grid-cols-2 gap-4 text-2xl">
                 <div>
                     <h3 class="mb-4">Total</h3>                    
-                    <h3 class="mb-4"># completed</h3>                    
-                    <h3 class="mb-4"># uncompleted</h3>                    
+                    <h3 class="mb-4"># Completed</h3>                    
+                    <h3 class="mb-4"># Uncompleted</h3>                    
                 </div>
                 <div>
-                    <h3 class="mb-4">3</h3>                    
-                    <h3 class="mb-4">3</h3>                    
-                    <h3 class="mb-4">3</h3>                    
+                    <h3 class="mb-4">{{ totalTasks }}</h3>                    
+                    <h3 class="mb-4">{{ totalCompleted }}</h3>                    
+                    <h3 class="mb-4">{{ totalUncompleted }}</h3>                    
                 </div>
             </div>
         </div>
@@ -113,7 +113,7 @@
             return{
                 tasks: [
                 {"description": 'Getting started with Firebase', "done": true},
-                {"description": 'Getting started with Vue', "done": true},
+                {"description": 'Getting started with Vue', "done": false},
                 {"description": 'Getting started with Figma', "done": false},
                 {"description": 'Getting started with Tailwind', "done": false}
             ]
@@ -138,7 +138,30 @@
                 localTasks = [];               // reset, because the array init happens only at mounted moment.
             })
         },
-        
+        computed: {
+            totalTasks() {
+                return this.tasks.length;
+            },
+            totalCompleted(){
+                let ctr = 0
+                for (const task of this.tasks){
+                    if(task.done){
+                        ctr = ctr + 1
+                    }
+                }
+                return ctr;
+            },
+            totalUncompleted(){
+                let ctr = 0
+                for (const task of this.tasks){
+                    if(!task.done){
+                        ctr = ctr + 1
+                    }
+                }
+                return ctr;
+            }
+        },
+
         methods: {            
             addTask() {
                 const input = this.$refs.inputNewTask;
@@ -181,22 +204,6 @@
 
 
 <style scoped>
-#taskViewer{
-    /* box-sizing: border-box; */
-}
-/* 
-ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-} */
-
-/* li {
-    padding: 20px;
-    background-color: aquamarine;
-    border-radius: 5px;
-} */
-
 input {
     /* width: 50%; */
     padding: 10px;
