@@ -1,14 +1,79 @@
 <template>
-    <div id="taskViewer">
-        <h1>🚀 Task Viewer</h1>
-        <input type="text" placeholder="Add a task" ref="inputNewTask"><button @click="addTask">Add new task</button>
-        <ul>
-            <div class="flexy" v-for="(task, index) in tasks" :key="index">
-                <li :class="{'taskDone': task.done}">{{ index }}. {{ task.description }}. {{ task.id }} {{ task.done }}</li>
-                <button @click="toggleDone(task.id, task.done)">&check;</button>
-                <button @click="removeTask(task.id)">&cross;</button>
+
+    <div class="mt-10 flex flex-wrap justify-evenly debug">
+
+        <div id="taskViewer" class="">
+            <!-- Title -->
+            <h1 class="text-4xl font-bold mb-8 debug">🚀 Task Viewer</h1>
+
+            <!-- Insert a new task -->
+            <div class="mt-15 mb-10">
+                <div class="mb-3">
+                    <label class="font-bold mb-20">Description</label>
+                    <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Description" ref="inputNewTask">
+                </div>
+                <div class="mb-3">
+                    <label class="font-bold mt-6 !important">Priority</label>
+                    <select class="w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded focus:bg-white focus:border-gray-500">
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                <button class="inline-flex items-center btn btn-blue" @click="addTask">
+                    <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><rect x="8" width="4" height="20"/><rect y="8" width="20" height="4"/></svg>
+                    <span>Add</span> 
+                </button>
+
             </div>
-        </ul>
+
+            <!-- List of tasks -->
+            <div class="debug">
+                <ul>
+                    <div class="mb-2 debug w-96" v-for="(task, index) in tasks" :key="index">
+                        <div class="flex flex-row">
+                            <!-- prio -->
+                            <div id="prio" class="prio prio-high"></div>
+                            <div class="bg-gray-200 ps-2 py-2 h-36 min-h-full w-full">
+                                <!-- tags -->
+                                <div class="tags mb-4">
+                                    <div :class="{'tagDone': task.done}" class="outline outline-gray-300 inline-block rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2">DONE</div>
+
+                                </div>
+                                <!-- task content -->
+                                <li class="debug">{{ task.description }}. {{ task.id }} {{ task.done }}</li>
+                            </div>
+                        </div>
+                        <!-- buttons -->
+                        <div class="flex justify-end">
+                            <button class="btn btn-blue" @click="toggleDone(task.id, task.done)">&check;</button>
+                            <button class="btn btn-red ml-2" @click="removeTask(task.id)">&cross;</button>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+
+        </div>
+
+        <div id="stats" class="debug">
+            <!-- Title -->
+            <h1 class="text-4xl font-bold mb-8">Stats</h1>
+            
+            <!-- Content -->
+            <div class="grid grid-cols-2 gap-4 text-2xl">
+                <div>
+                    <h3 class="mb-4">Total</h3>                    
+                    <h3 class="mb-4"># completed</h3>                    
+                    <h3 class="mb-4"># uncompleted</h3>                    
+                </div>
+                <div>
+                    <h3 class="mb-4">3</h3>                    
+                    <h3 class="mb-4">3</h3>                    
+                    <h3 class="mb-4">3</h3>                    
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -46,10 +111,16 @@
         name: "TaskViewer",
         data(){
             return{
-                tasks: []
+                tasks: [
+                {"description": 'Getting started with Firebase', "done": true},
+                {"description": 'Getting started with Vue', "done": true},
+                {"description": 'Getting started with Figma', "done": false},
+                {"description": 'Getting started with Tailwind', "done": false}
+            ]
             }
         },
         mounted() {
+            return /* eslint-disable */
             let localTasks = [];
             const refTasks = ref(db, '/tasks');
 
@@ -111,28 +182,23 @@
 
 <style scoped>
 #taskViewer{
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
 }
-
-.flexy{
-    display: flex;
-    margin-top: 10px;
-}
-
+/* 
 ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
-}
+} */
 
-li {
+/* li {
     padding: 20px;
     background-color: aquamarine;
     border-radius: 5px;
-}
+} */
 
 input {
-    width: 50%;
+    /* width: 50%; */
     padding: 10px;
 }
 
@@ -146,7 +212,42 @@ button:hover{
     background-color: darkorange;
 }
 
-.taskDone {
-    text-decoration: line-through;
+.tagDone{
+    @apply bg-green-500 outline outline-green-300 text-white;
 }
+
+.debug{
+    /* @apply outline outline-lime-300; */
+}
+
+.btn {
+    @apply font-bold py-2 px-4 rounded;
+  }
+  .btn-blue {
+    @apply bg-blue-500 text-white;
+  }
+  .btn-blue:hover {
+    @apply bg-blue-700;
+  }
+
+  .btn-red{
+    @apply bg-red-500 text-white;
+  }
+
+  .btn-red:hover{
+    @apply bg-red-700;
+  }
+
+
+  .prio{
+    @apply w-6;
+  }
+  .prio-high{
+    @apply bg-red-600;
+  }
+
+  .prio-low{
+    @apply bg-blue-400;
+  }
+
 </style>

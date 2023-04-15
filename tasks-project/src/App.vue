@@ -27,8 +27,4 @@ export default {
 #app {
   font-family: Helvetica, Arial, sans-serif;
 }
-.center-content{
-  max-width: 25rem;
-  margin-inline: auto;
-}
 </style>
